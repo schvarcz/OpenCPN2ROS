@@ -13,11 +13,9 @@ from nmea_msgs.msg import Sentence
 def nmeaSentenceCallback(data):
     global GPS
     if data.sentence != "":
-        print("Sending: " + data.sentence)
         if (data.sentence.split(",")[0] in protocols) or protocols[0] == "":
-            pass
+            print("Sending: " + data.sentence)
             GPS.writelines(data.sentence + "\n")
-    # GPS.writelines("$GPRMC,123519,A,4807.038,N,01131.000,E,022.4,084.4,230394,003.1,W*6A"+"\n")
 
 
 if __name__ == '__main__':

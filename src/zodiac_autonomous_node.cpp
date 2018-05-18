@@ -101,8 +101,8 @@ public:
     std::string ns = ros::this_node::getNamespace();
 
     sub1 = n.subscribe("/nmea_sentence", 1000000, &ZodiacAutonomous::nmeaSentenceCallback, this);
-    pub1 = n.advertise<nmea_msgs::Sentence>("/nmea_sentence",0);
-    pub2 = n.advertise<zodiac_command::WaypointListMission>("/waypoints",0);
+    pub1 = n.advertise<nmea_msgs::Sentence>("/nmea_sentence",1000);
+    pub2 = n.advertise<zodiac_command::WaypointListMission>("/waypoints",1000);
   }
 
   void nmeaSentenceCallback(const nmea_msgs::Sentence sentence_msg)
@@ -120,7 +120,6 @@ public:
       {
         loaded = false;
         pts.clear();
-//        publishBoatPose();
       }
       NMEA_WPL wp(sentence_msg.sentence);
       pts.push_back(wp);
@@ -154,17 +153,12 @@ public:
     pub2.publish(waypoint_msg);
   }
 
+  //Just keeping these fucntions around in case of nmea messages directly from GPS do not work.
   void publishBoatPose()
   {
     nmea_msgs::Sentence msg;
     msg.header.stamp = ros::Time::now();
     msg.sentence = packMessage("GPGGA,123519,4807.038,N,01131.000,E,1,10,0.9,545.4,M,46.9,M,,");
-    pub1.publish(msg);
-    msg.sentence = packMessage("GPGLL,4916.45,N,12311.12,W,225444,A,");
-    pub1.publish(msg);
-    msg.sentence = packMessage("GPGSA,A,3,04,05,,09,12,,,24,,,,,2.5,1.3,2.1");
-    pub1.publish(msg);
-    msg.sentence = packMessage("GPGSV,2,1,08,01,40,083,46,02,17,308,41,12,07,344,39,14,22,228,45");
     pub1.publish(msg);
   }
 
@@ -202,10 +196,10 @@ int main(int argc, char** argv)
 
   ros::spin();
 
-//  ros::Rate rate(30);
+//  ros::Rate rate(1);
 //  while(rate.sleep())
 //  {
 //    mZodiacAutonomous.publishBoatPose();
+//    ros::spinOnce();
 //  }
-//  ros::spinOnce();
 }
