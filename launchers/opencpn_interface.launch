@@ -7,7 +7,7 @@
     <node pkg="zodiac_autonomous" type="nmea_topic_virtual_serial_writer" name="nmea_topic_virtual_serial_writer" output="screen">
         <param name="port" value="/dev/ttyVUSB2" />
         <param name="baud" value="4800" />
-        <param name="protocols" value="$GPRMC,$GPGGA" />
+        <param name="protocols" value="" />
     </node>
     <node pkg="zodiac_autonomous" type="zodiac_autonomous_node" name="zodiac_autonomous_node" output="screen" />
     <!--<node pkg="zodiac_autonomous" type="zodiac_autonomous_py_node" name="zodiac_autonomous_py_node" output="screen" />-->

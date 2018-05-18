@@ -13,6 +13,7 @@ find_package(catkin REQUIRED
     tf
     std_msgs
     nmea_msgs
+    zodiac_command
 )
 
 ## System dependencies are found with CMake's conventions
@@ -120,6 +121,7 @@ catkin_package(
 include_directories(
 # include
  ${catkin_INCLUDE_DIRS}
+
 )
 
 ## Declare a C++ library
