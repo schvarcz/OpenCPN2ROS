@@ -1,4 +1,5 @@
 <launch>
+<group ns="zodiac_auto">
     <node pkg="zodiac_autonomous" type="nmea_topic_virtual_serial_reader" name="nmea_topic_virtual_serial_reader" output="screen">
         <param name="port" value="/dev/ttyVUSB1" />
         <param name="baud" value="4800" />
@@ -11,4 +12,5 @@
     </node>
     <node pkg="zodiac_autonomous" type="zodiac_autonomous_node" name="zodiac_autonomous_node" output="screen" />
     <!--<node pkg="zodiac_autonomous" type="zodiac_autonomous_py_node" name="zodiac_autonomous_py_node" output="screen" />-->
+</group>
 </launch>

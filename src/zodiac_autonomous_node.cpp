@@ -100,9 +100,9 @@ public:
 
     std::string ns = ros::this_node::getNamespace();
 
-    sub1 = n.subscribe("/nmea_sentence", 1000000, &ZodiacAutonomous::nmeaSentenceCallback, this);
-    pub1 = n.advertise<nmea_msgs::Sentence>("/nmea_sentence",1000);
-    pub2 = n.advertise<zodiac_command::WaypointListMission>("/waypoints",1000);
+    sub1 = n.subscribe("nmea_sentence", 1000000, &ZodiacAutonomous::nmeaSentenceCallback, this);
+    pub1 = n.advertise<nmea_msgs::Sentence>("nmea_sentence",1000);
+    pub2 = n.advertise<zodiac_command::WaypointListMission>("new_waypoints_mission",1000,true);
   }
 
   void nmeaSentenceCallback(const nmea_msgs::Sentence sentence_msg)
