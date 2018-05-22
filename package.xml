@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <package format="2">
-  <name>zodiac_autonomous</name>
+  <name>opencpn2ros</name>
   <version>0.0.0</version>
-  <description>The zodiac_autonomous package</description>
+  <description>The opencpn2ros package</description>
 
   <!-- One maintainer tag required, multiple allowed, one person per tag -->
   <!-- Example:  -->
@@ -19,7 +19,7 @@
   <!-- Url tags are optional, but multiple are allowed, one per tag -->
   <!-- Optional attribute type can be: website, bugtracker, or repository -->
   <!-- Example: -->
-  <!-- <url type="website">http://wiki.ros.org/zodiac_autonomous</url> -->
+  <!-- <url type="website">http://wiki.ros.org/opencpn2ros</url> -->
 
 
   <!-- Author tags are optional, multiple are allowed, one per tag -->
@@ -49,9 +49,6 @@
   <!-- Use doc_depend for packages you need only for building documentation: -->
   <!--   <doc_depend>doxygen</doc_depend> -->
   <buildtool_depend>catkin</buildtool_depend>
-  <buildtool_depend>zodiac_command</buildtool_depend>
-  <depend>zodiac_command</depend>
-
 
 
   <!-- The export tag contains other, unspecified, tags -->

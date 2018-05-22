@@ -25,15 +25,19 @@ if __name__ == '__main__':
 
     try:
         GPS = serial.Serial(port=serial_port, baudrate=serial_baud, rtscts=True, dsrdtr=True, timeout=2)
+        lastData = ""
         while not rospy.is_shutdown():
             data = GPS.readline().strip()
 
-            sentence = Sentence()
-            sentence.header.stamp = rospy.get_rostime()
-            sentence.header.frame_id = frame_id
-            sentence.sentence = data
+            if data != lastData:
+                sentence = Sentence()
+                sentence.header.stamp = rospy.get_rostime()
+                sentence.header.frame_id = frame_id
+                sentence.sentence = data
 
-            nmea_pub.publish(sentence)
+                nmea_pub.publish(sentence)
+                
+            lastData = data
 
     except rospy.ROSInterruptException:
         GPS.close() #Close GPS serial port

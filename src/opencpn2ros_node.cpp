@@ -4,7 +4,8 @@
 #include <string>
 #include <ros/ros.h>
 #include <nmea_msgs/Sentence.h>
-#include <zodiac_command/WaypointListMission.h>
+#include <geometry_msgs/PoseArray.h>
+#include <nav_msgs/Path.h>
 
 using namespace std;
 
@@ -38,7 +39,7 @@ struct NMEA_WPL
     this->longitude = nmeaToDeg(std::stod(part));
     std::getline(parts,part,',');
     this->longitudeH = part;
-    if(this->longitudeH.compare("S") == 0)
+    if(this->longitudeH.compare("W") == 0)
       this->longitude = -this->longitude;
 
     this->name = part;
@@ -90,19 +91,21 @@ struct NMEA_RTE
 };
 
 
-class ZodiacAutonomous
+class OpenCPN2ROS
 {
 public:
 
-  ZodiacAutonomous () : loaded(true)
+  OpenCPN2ROS () : loaded(true)
   {
     ros::NodeHandle nodeLocal("~");
 
     std::string ns = ros::this_node::getNamespace();
 
-    sub1 = n.subscribe("nmea_sentence", 1000000, &ZodiacAutonomous::nmeaSentenceCallback, this);
+    sub1 = n.subscribe("nmea_sentence", 1000000, &OpenCPN2ROS::nmeaSentenceCallback, this);
+    sub2 = n.subscribe("pose", 1000000, &OpenCPN2ROS::poseCallback, this);
     pub1 = n.advertise<nmea_msgs::Sentence>("nmea_sentence",1000);
-    pub2 = n.advertise<zodiac_command::WaypointListMission>("new_waypoint_mission",1000,true);
+    // pub2 = n.advertise<geometry_msgs::PoseArray>("new_waypoints_mission", 1000);
+    pub2 = n.advertise<nav_msgs::Path>("new_waypoints_mission", 1000);
   }
 
   void nmeaSentenceCallback(const nmea_msgs::Sentence sentence_msg)
@@ -134,23 +137,48 @@ public:
     }
   }
 
+  // void publishWaypointList()
+  // {
+  //   geometry_msgs::PoseArray waypoint_msg;
+  //   waypoint_msg.header.stamp = ros::Time::now();
+  //   waypoint_msg.header.frame_id = "mission_waypoints";
+  //
+  //   int i = 1;
+  //   for(auto pt : pts)
+  //   {
+  //     geometry_msgs::Pose wp;
+  //     wp.position.x = pt.longitude;
+  //     wp.position.y = pt.latitude;
+  //     waypoint_msg.poses.push_back(wp);
+  //   }
+  //   pub2.publish(waypoint_msg);
+  // }
+
   void publishWaypointList()
   {
-    zodiac_command::WaypointListMission waypoint_msg;
+    nav_msgs::Path waypoint_msg;
     waypoint_msg.header.stamp = ros::Time::now();
     waypoint_msg.header.frame_id = "mission_waypoints";
-    waypoint_msg.child_frame_id = "map";
 
     int i = 1;
     for(auto pt : pts)
     {
-      zodiac_command::WaypointMission wp;
-      wp.waypointID = i++;
-      wp.latitude  = pt.latitude;
-      wp.longitude = pt.longitude;
-      waypoint_msg.waypoints.push_back(wp);
+      geometry_msgs::PoseStamped wp;
+      wp.pose.position.x = pt.longitude;
+      wp.pose.position.y = pt.latitude;
+      waypoint_msg.poses.push_back(wp);
     }
     pub2.publish(waypoint_msg);
+  }
+
+  void poseCallback(const geometry_msgs::PoseStamped pose_msg)
+  {
+    std::stringstream msg_comp;
+    msg_comp << "GPGGA,123519," << degToNmea(pose_msg.pose.position.y) << (pose_msg.pose.position.y>0?",N,":",S,")  << degToNmea(pose_msg.pose.position.x) << (pose_msg.pose.position.x>0?",E,":",W,") << "4,10,0," << pose_msg.pose.position.z << ",M," << pose_msg.pose.position.z << ",M,,";
+    nmea_msgs::Sentence msg;
+    msg.header.stamp = ros::Time::now();
+    msg.sentence = packMessage(msg_comp.str());
+    // pub1.publish(msg);
   }
 
   //Just keeping these fucntions around in case of nmea messages directly from GPS do not work.
@@ -181,7 +209,7 @@ public:
 
 private:
   ros::NodeHandle n;
-  ros::Subscriber sub1;
+  ros::Subscriber sub1, sub2;
   ros::Publisher pub1, pub2;
   vector<NMEA_WPL> pts;
   vector<NMEA_RTE> rte;
@@ -190,16 +218,16 @@ private:
 
 int main(int argc, char** argv)
 {
-  ros::init(argc, argv, "zodiac_autonomous_node");
+  ros::init(argc, argv, "opencpn2ros");
 
-  ZodiacAutonomous mZodiacAutonomous;
+  OpenCPN2ROS mOpenCPN2ROS;
 
   ros::spin();
 
-//  ros::Rate rate(1);
-//  while(rate.sleep())
-//  {
-//    mZodiacAutonomous.publishBoatPose();
-//    ros::spinOnce();
-//  }
+ // ros::Rate rate(1);
+ // while(rate.sleep())
+ // {
+ //   mOpenCPN2ROS.publishBoatPose();
+ //   ros::spinOnce();
+ // }
 }

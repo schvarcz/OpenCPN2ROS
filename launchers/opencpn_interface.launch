@@ -1,16 +1,14 @@
 <launch>
-<group ns="zodiac_auto">
-    <node pkg="zodiac_autonomous" type="nmea_topic_virtual_serial_reader" name="nmea_topic_virtual_serial_reader" output="screen">
-        <param name="port" value="/dev/ttyVUSB1" />
-        <param name="baud" value="4800" />
-    </node>
+  <node pkg="opencpn2ros" type="nmea_topic_virtual_serial_reader" name="nmea_topic_virtual_serial_reader">
+    <param name="port" value="/dev/ttyVUSB1" />
+    <param name="baud" value="4800" />
+  </node>
 
-    <node pkg="zodiac_autonomous" type="nmea_topic_virtual_serial_writer" name="nmea_topic_virtual_serial_writer" output="screen">
-        <param name="port" value="/dev/ttyVUSB2" />
-        <param name="baud" value="4800" />
-        <param name="protocols" value="$GPRMC,$GPGGA" />
-    </node>
-    <node pkg="zodiac_autonomous" type="zodiac_autonomous_node" name="zodiac_autonomous_node" output="screen" />
-    <!--<node pkg="zodiac_autonomous" type="zodiac_autonomous_py_node" name="zodiac_autonomous_py_node" output="screen" />-->
-</group>
+  <node pkg="opencpn2ros" type="nmea_topic_virtual_serial_writer" name="nmea_topic_virtual_serial_writer">
+    <param name="port" value="/dev/ttyVUSB2" />
+    <param name="baud" value="4800" />
+    <param name="protocols" value="$GPGGA,$GPHDT" />
+  </node>
+  <node pkg="opencpn2ros" type="opencpn2ros" name="opencpn2ros"/>
+  <!-- <node pkg="opencpn2ros" type="opencpn2ros_node" name="opencpn2ros_node" output="screen" /> -->
 </launch>
