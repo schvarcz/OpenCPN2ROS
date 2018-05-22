@@ -6,7 +6,6 @@
 
 import rospy
 from geometry_msgs.msg import PoseStamped, Pose, Twist, Quaternion
-import utm
 from math import floor
 from nmea_msgs.msg import Sentence
 import tf
