@@ -16,7 +16,6 @@ UTM30N = proj.Proj("+init=EPSG:32630")
 UTM31N = proj.Proj("+init=EPSG:32631")
 
 def latlong2utm(lat, lon):
-    # x, y, zone, zonel = utm.from_latlon(lat,lon)
     return UTM30N(lon, lat)
 
 def utm2latlong(x, y):
@@ -67,12 +66,9 @@ def secsToNmeaTime(secs):
 
 class FakeGPS:
     def __init__(self):
-        self.zone = rospy.get_param('~utm_zone', 30)
-        self.zonel = rospy.get_param('~utm_zone_l', "U")
-
         rospy.Subscriber('pose', PoseStamped, self.cb_pose, queue_size=1000000)
         self.pub_nmea = rospy.Publisher('nmea_sentence', Sentence, queue_size=10000)
-        self.rate = rospy.Rate(rospy.get_param('rate', 3))
+        self.rate = rospy.Rate(rospy.get_param('~rate', 3))
         self.cur_pose = None
 
     def cb_pose(self, pose_msg):
