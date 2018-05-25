@@ -60,7 +60,6 @@ class NMEA_RTE:
 class OpenCPN2ROS:
     def __init__(self):
         rospy.Subscriber('nmea_sentence', Sentence, self.cb_nmeaSentence, queue_size=1000000)
-        self.pub_nmea = rospy.Publisher('nmea_sentence', Sentence, queue_size=1000000)
         self.pub_path = rospy.Publisher('new_waypoints_mission', Path, queue_size=1000000)
         self.pts = []
         self.rtes = []

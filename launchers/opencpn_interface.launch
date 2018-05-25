@@ -10,5 +10,4 @@
     <param name="protocols" value="$GPGGA,$GPHDT" />
   </node>
   <node pkg="opencpn2ros" type="opencpn2ros" name="opencpn2ros"/>
-  <!-- <node pkg="opencpn2ros" type="opencpn2ros_node" name="opencpn2ros_node" output="screen" /> -->
 </launch>
