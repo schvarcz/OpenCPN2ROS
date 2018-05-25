@@ -1,5 +1,6 @@
 OpenCPN2ROS
 ===========
+![ROS](https://img.shields.io/badge/ROS-Kinetic--Kame-green.svg)
 
 This project aims to create a link between OpenCPN and ROS throughout a serial port and NMEA standard.
 
