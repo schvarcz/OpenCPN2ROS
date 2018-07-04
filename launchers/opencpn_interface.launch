@@ -7,7 +7,20 @@
   <node pkg="opencpn2ros" type="nmea_topic_virtual_serial_writer" name="nmea_topic_virtual_serial_writer">
     <param name="port" value="/dev/ttyVUSB2" />
     <param name="baud" value="4800" />
-    <param name="protocols" value="$GPGGA,$GPHDT" />
+    <!-- <param name="protocols" value="$GPGGA,$GPHDT" /> -->
   </node>
+
+  <node pkg="opencpn2ros" type="fake_gps" name="fake_gps">
+    <param name="rate" value="1" />
+  </node>
+
+  <node pkg="opencpn2ros" type="fake_compass" name="fake_compass">
+    <param name="rate" value="1" />
+  </node>
+
+  <node pkg="opencpn2ros" type="fake_sounder" name="fake_sounder">
+    <param name="rate" value="1" />
+  </node>
+
   <node pkg="opencpn2ros" type="opencpn2ros" name="opencpn2ros"/>
 </launch>

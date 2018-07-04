@@ -55,6 +55,24 @@ Reads the robot pose and publish into OpenCPN.
 
 ___
 
+### fake_compass
+Reads the robot heading and publish into OpenCPN.
+#### Subscribed topics
+`std_msgs/Float64` - pose: Robot's current heading.
+#### Published topics
+`nmea_msgs/Sentence` - nmea_sentence: NMEA Message to be sent to OpenCPN.
+
+___
+
+### fake_sounder
+Reads the robot distance from the seabed and publish into OpenCPN.
+#### Subscribed topics
+`std_msgs/Float64` - pose: Robot's current distance from the seabed.
+#### Published topics
+`nmea_msgs/Sentence` - nmea_sentence: NMEA Message to be sent to OpenCPN.
+
+___
+
 ### nmea_topic_virtual_serial_reader
 Reads serial port `/dev/ttyVUSB0` for incoming messages.
 #### Published topics
