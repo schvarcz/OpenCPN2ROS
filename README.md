@@ -18,7 +18,6 @@ sudo apt-get install ros-kinetic-nmea-navsat-driver ros-kinetic-nav-msgs socat p
 
 ## How to use
 
-1. Create the virtual ports.
 
 ```
 sudo ./script/create_ports.bash
@@ -32,7 +31,7 @@ sudo ./script/create_ports.bash
 3. Launch the ROS interface:
 
 ```
-roslaunch opencpn3ros opencpn_interface.launch
+roslaunch opencpn2ros opencpn_interface.launch
 ```
 
 ## ROS Nodes
